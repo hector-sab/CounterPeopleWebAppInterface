@@ -1,0 +1,25 @@
+/* Index */
+#header {
+	margin-bottom:0;
+	background-color: #e29898;
+}
+
+/* Stats */
+.chart {
+	width: 95%;
+	min-height: 450px;
+}
+
+/* Live */
+.video {
+	width: 70%;
+	max-width: 1000px;
+	min-height: 400px;
+	background-color: #93999b
+}
+
+/* About */
+
+.empty {
+	min-height: 100px;
+}
