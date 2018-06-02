@@ -5,6 +5,8 @@ function stats() {
 	var drawChart = null;
 	// Indicates if it's visible or not
 	var visibilityChart = false;
+	// Indicates which period to display
+	var period = null;
 	// Indicates which year to load
 	var year = null;
 	// Indicates which month to load
@@ -14,24 +16,54 @@ function stats() {
 
 
 	if($('.container-fluid').is('#stats')) {
-		//selectChart('area');
+		period = 'day';
+		selectChart('area');
+		
 		// Loads the available years
 		var years = existingFiles(new Array('years'));
 		populateForm(years,0);
 
+		var periodSelect = document.getElementById('period_select');
+		periodSelect.addEventListener('change',periodSelectedResp,false);
+
 		var yearSelect = document.getElementById('year_select');
-		yearSelect.addEventListener('change',displayMonths,false);
+		yearSelect.addEventListener('change',yearSelectedResp,false);
 
 		var monthSelect = document.getElementById('month_select');
-		monthSelect.addEventListener('change',displayDays,false);
+		monthSelect.addEventListener('change',monthSelectedResp,false);
 
 		var daySelect = document.getElementById('day_select');
-		daySelect.addEventListener('change',whichDay,false);
+		daySelect.addEventListener('change',daySelectedResp,false);
 	};
 
 
 	/////////////////
-	function displayMonths() {
+	function periodSelectedResp() {
+		if (this.value.length>0) {
+			// Save selected year
+			period = this.value;
+
+			switch(period) {
+				case 'year':
+					if (year!=null) {
+						drawChart();
+					}
+					break;
+				case 'month':
+					if (month!=null) {
+						drawChart();
+					}
+					break;
+				case 'day':
+					if (day!=null) {
+						drawChart();
+					}
+					break;
+			};
+		};
+	};
+
+	function yearSelectedResp() {
 		if (this.value.length>0) {
 			// Save selected year
 			year = this.value;
@@ -43,10 +75,14 @@ function stats() {
 			// Populate form
 			var months = existingFiles(new Array('months',this.value));
 			populateForm(months,1);
-		}
+
+			if(period=='year') {
+				drawChart();
+			};
+		};
 	};
 
-	function displayDays() {
+	function monthSelectedResp() {
 		if (this.value.length>0) {
 			// Save selected month
 			month = this.value;
@@ -57,12 +93,20 @@ function stats() {
 			// Populate form
 			var months = existingFiles(new Array('days',year,this.value));
 			populateForm(months,2);
-		}
+
+			if(period=='month') {
+				drawChart();
+			};
+		};
 	};
 
-	function whichDay() {
+	function daySelectedResp() {
 		if (this.value.length>0) {
 			day = this.value;
+
+			if(period=='day') {
+				drawChart();
+			};
 		};
 	};
 	/////////////////
@@ -179,16 +223,29 @@ function stats() {
 		return(files);
 	};
 
+	function getJsonData() {
+		var jsonData = $.ajax({
+			url: "php/getData2.php",
+			data: {mode:period,year:year,month:month,day:day},
+			dataType: "json",
+			async: false
+		}).responseText;
+
+		var data = new google.visualization.DataTable(jsonData);
+		formatDate.format(data,0)
+		return data;
+	};
+
 	function selectChart(text) {
 		// Select which chart is going to be used based on a text
 		//  message
 		var chart = null;
 		switch(text) {
 			case 'area':
-				chart = drawArea;
+				drawChart = drawArea;
 				break;
 			case 'bars':
-				chart = drawBars;
+				drawChart = drawBars;
 				break;
 		};
 	};

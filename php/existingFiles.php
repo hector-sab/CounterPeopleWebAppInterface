@@ -25,21 +25,6 @@ switch ($mode) {
 		$month = $_GET['month'];
 		$files = scandir($files_path.'daily/'.$year.'/'.$month.'/');
 		break;
-	case 'year':
-		$year = $_GET['year'];
-		$file = $file."yearly/".$year.".json";
-		break;
-	case 'month':
-		$year = $_GET['year'];
-		$month = $_GET['month'];
-		$file = $file."monthly/".$year."/".$month.".json";
-		break;
-	case 'day':
-		$year = $_GET['year'];
-		$month = $_GET['month'];
-		$day = $_GET['day'];
-		$file = $file."daily/".$year."/".$month."/".$day.".json";
-		break;
 };
 
 switch ($mode) {
@@ -51,11 +36,7 @@ switch ($mode) {
 		}
 		echo json_encode($ffiles);
 		break;
-	case 'year' or 'month' or 'day':
-		$string = file_get_contents($file);
-		echo $string;
-		break;
-}
+};
 
 
 
