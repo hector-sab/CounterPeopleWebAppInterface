@@ -1,0 +1,70 @@
+<script src="js/stats2.js"></script>
+
+<div class="container-fluid" id="stats">
+	<div class="row">
+		<div class="col-sm-2" id="side-panel" align="center">
+			<form>
+				<div class="form-group stats">
+					<label for="period_select">Periodo</label>
+					<select class="form-control" id="period_select">
+						<option value="day" selected>Día</option>
+						<option value="month">Mes</option>
+						<option value="year">Año</option>
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="chart_select">Gráfica</label>
+					<select class="form-control" id="chart_select">
+						<option value="area" selected>Área</option>
+						<option value="bars">Barras</option>
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="year_select">Año</label>
+					<select class="form-control" id="year_select">
+						<option selected></option>
+						<!-- Years dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="month_select">Mes</label>
+					<select class="form-control" id="month_select">
+						<option selected></option>
+						<!-- Months dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="day_select">Día</label>
+					<select class="form-control" id="day_select">
+						<option selected></option>
+						<!-- Days dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+						
+		</div>
+		<div class="col-sm-10">
+			<div id="chart_div"></div>
+			<div class="container" id="chart_description">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+		</div>
+	</div>
+</div>

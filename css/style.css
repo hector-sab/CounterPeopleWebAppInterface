@@ -5,6 +5,15 @@
 }
 
 /* Stats */
+#side-panel {
+	background-color: #eae2d7;
+}
+
+.form-group.stats label {
+	font-family: sans;
+	font-size: 2vmax;
+}
+
 .chart {
 	width: 95%;
 	min-height: 0px;
@@ -14,13 +23,6 @@
 	min-height: 0px;
 }
 
-/* Live */
-.video {
-	width: 70%;
-	max-width: 1000px;
-	min-height: 400px;
-	background-color: #93999b
-}
 
 /* About */
 
