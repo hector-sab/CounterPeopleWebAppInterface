@@ -18,13 +18,16 @@ function stats() {
 	if($('.container-fluid').is('#stats')) {
 		period = 'day';
 		selectChart('area');
-		
+
 		// Loads the available years
 		var years = existingFiles(new Array('years'));
 		populateForm(years,0);
 
 		var periodSelect = document.getElementById('period_select');
 		periodSelect.addEventListener('change',periodSelectedResp,false);
+
+		var chartSelect = document.getElementById('chart_select');
+		chartSelect.addEventListener('change',chartSelectedResp,false);
 
 		var yearSelect = document.getElementById('year_select');
 		yearSelect.addEventListener('change',yearSelectedResp,false);
@@ -60,6 +63,13 @@ function stats() {
 					}
 					break;
 			};
+		};
+	};
+
+	function chartSelectedResp() {
+		selectChart(this.value);
+		if (visibilityChart) {
+			drawChart();
 		};
 	};
 
@@ -251,7 +261,13 @@ function stats() {
 	};
 
 	function drawArea() {
-		console.log('Area')
+		console.log('Area');
+		visibilityChart = true;
+	};
+
+	function drawBars() {
+		console.log('Bars')
+		visibilityChart = true;
 	};
 	///////
 };
