@@ -2,98 +2,149 @@
 <html>
 <head>
 	<title>Testing</title>
-
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<script src="js/loader.js"></script>
-	<script type="text/javascript">
-		google.charts.load('current', {packages:['corechart', 'table', 'gauge', 'controls']});
-		google.charts.setOnLoadCallback(drawChartRangeFilter);
+	<script>
+		google.charts.load('current', {packages:['corechart','controls']}).then(start);
 
-		function drawChartRangeFilter() {
-
-			var dashboard = new google.visualization.Dashboard(
-					document.getElementById('chartRangeFilter_dashboard_div'));
-
-			var control = new google.visualization.ControlWrapper({
-				'controlType': 'ChartRangeFilter',
-				'containerId': 'chartRangeFilter_control_div',
-				'options': {
-					// Filter by the date axis.
-					'filterColumnIndex': 0,
-					'ui': {
-						'chartType': 'LineChart',
-						'chartOptions': {
-							'chartArea': {'width': '90%'},
-							'hAxis': {'baselineColor': 'none'}
-						},
-						// Display a single series that shows the closing value of the stock.
-						// Thus, this view has two columns: the date (axis) and the stock value (line series).
-						'chartView': {
-							'columns': [0, 3]
-						},
-						// 1 day in milliseconds = 24 * 60 * 60 * 1000 = 86,400,000
-						'minRangeSize': 86400000
-					}
-				},
-				// Initial range: 2012-02-09 to 2012-03-20.
-				'state': {'range': {'start': new Date(2012, 1, 9), 'end': new Date(2012, 2, 20)}}
-			});
-
-			var chart = new google.visualization.ChartWrapper({
-				'chartType': 'CandlestickChart',
-				'containerId': 'chartRangeFilter_chart_div',
-				'options': {
-					// Use the same chart area width as the control for axis alignment.
-					'chartArea': {'height': '80%', 'width': '90%'},
-					'hAxis': {'slantedText': false},
-					'vAxis': {'viewWindow': {'min': 0, 'max': 2000}},
-					'legend': {'position': 'none'}
-				},
-				// Convert the first column from 'date' to 'string'.
-				'view': {
-					'columns': [
-						{
-							'calc': function(dataTable, rowIndex) {
-								return dataTable.getFormattedValue(rowIndex, 0);
-							},
-							'type': 'string'
-						}, 1, 2, 3, 4]
-				}
-			});
-
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Date');
-			data.addColumn('number', 'Stock low');
-			data.addColumn('number', 'Stock open');
-			data.addColumn('number', 'Stock close');
-			data.addColumn('number', 'Stock high');
-
-			// Create random stock values, just like it works in reality.
-			var open, close = 300;
-			var low, high;
-			for (var day = 1; day < 121; ++day) {
-				var change = (Math.sin(day / 2.5 + Math.PI) + Math.sin(day / 3) - Math.cos(day * 0.7)) * 150;
-				change = change >= 0 ? change + 10 : change - 10;
-				open = close;
-				close = Math.max(50, open + change);
-				low = Math.min(open, close) - (Math.cos(day * 1.7) + 1) * 15;
-				low = Math.max(0, low);
-				high = Math.max(open, close) + (Math.cos(day * 1.3) + 1) * 15;
-				var date = new Date(2012, 0 ,day);
-				data.addRow([date, Math.round(low), Math.round(open), Math.round(close), Math.round(high)]);
+		function start() {
+			// Adds leading zeros to an integer
+			Number.prototype.pad = function(size) {
+				var s = String(this);
+				while (s.length < (size || 2)) {s = "0" + s;}
+				return s;
 			}
 
-			dashboard.bind(control, chart);
-			dashboard.draw(data);
-		}
-	</script>
+			function createDropMonths() {
+				var dd = document.createElement('div');
 
+				var ddb = document.createElement('button');
+				ddb.setAttribute('class','btn btn-secondary dropdown-toggle');
+				ddb.setAttribute('type','button');
+				ddb.setAttribute('id','dropdownMenuButton');
+				ddb.setAttribute('data-toggle','dropdown');
+				ddb.setAttribute('aria-haspopup','true');
+				ddb.setAttribute('aria-expanded','false');
+				var txt = document.createTextNode('Month');
+				ddb.appendChild(txt);
+
+				var ddm = document.createElement('div');
+				ddm.setAttribute('class','dropdown-menu');
+				ddm.setAttribute('aria-labelledby','dropdownMenuButton');
+
+				for (var i=1; i<13; i++) {
+					var month_str = i.pad(2);
+
+					var ddi = document.createElement('a');
+					ddi.setAttribute('class','dropdown-item');
+					ddi.setAttribute('id','month_selector');
+					ddi.setAttribute('href',month_str);
+					var txt = document.createTextNode(month_str);
+					ddi.appendChild(txt);
+					ddm.appendChild(ddi);
+				}
+
+				dd.appendChild(ddb);
+				dd.appendChild(ddm);
+
+				document.getElementById('months_dropdown').appendChild(dd)
+			};
+			createDropMonths();
+
+
+			var mode = 'day'; // day,month,year
+			var year = '2018';
+			var month = '01';
+			var day = '01';
+
+			// change data depending on click selection
+			$(".dropdown-item[id^=year_selector]").on("click", function(e) {
+				e.preventDefault();
+				year = $(this).attr('href');
+			});
+
+			// month
+			$(".dropdown-item[id^=month_selector]").on("click", function(e) {
+				e.preventDefault();
+				month = $(this).attr('href');
+			});
+
+			// Updates chart
+			$('button[id^=chart_update]').on('click',function(e) {
+				e.preventDefault();
+				chart.draw(getJsonData(),options);
+			});
+
+
+			var chart = new google.visualization.ColumnChart(
+				document.getElementById('chart_div'));
+
+			// Gets Data to be displayed on the charts
+			function getJsonData() {
+				var jsonData = $.ajax({
+					url: "php/getData2.php",
+					data: {mode:mode,year:year,month:month,day:day},
+					dataType: "json",
+					async: false
+				}).responseText;
+
+				var data = new google.visualization.DataTable(jsonData);
+				formatDate.format(data,0)
+				return data;
+			};
+
+			var options = {
+				'title': 'Test',
+				'chartArea': {'height':'80%','width':'90%'},
+				'hAxis': {
+					'format': 'HH:mm'
+				}
+			};
+
+			var formatDate = new google.visualization.DateFormat(
+				{prefix: 'Time: ',pattern:'MMM dd HH:mm'})
+
+			chart.draw(getJsonData(),options);
+			/////
+		};
+	</script>
 </head>
 <body>
+		
+	</div>
+	<div id="chart_div"></div>
 
-<div id="chartRangeFilter_dashboard_div">
-	<div id="chartRangeFilter_chart_div"></div>
-	<div id="chartRangeFilter_control_div"></div>
-</div>
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Year
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" id="year_selector" href="2018">2018</a>
+				<a class="dropdown-item" id="year_selector" href="2019">2019</a>
+				<a class="dropdown-item" id="year_selector" href="2020">2020</a>
+			</div>
+		</div>
+
+		<div id="months_dropdown"></div>
+
+
+	<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<label class="btn btn-secondary active">
+			<input type="radio" name="options" id="option1" autocomplete="off" checked> Year
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option2" autocomplete="off"> Month
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option3" autocomplete="off"> Day
+		</label>
+	</div>
+
+	<button type="button" class="btn" id="chart_update">Actualizar</button>
+
 
 </body>
 </html>
