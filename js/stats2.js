@@ -40,7 +40,18 @@ function stats() {
 	};
 
 
-	/////////////////
+
+
+
+
+
+
+
+
+
+
+
+	///////////////// Starts: Response Functions
 	function periodSelectedResp() {
 		if (this.value.length>0) {
 			// Save selected year
@@ -119,7 +130,21 @@ function stats() {
 			};
 		};
 	};
-	/////////////////
+	///////////////// Ends: Response Functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	function cleanForm(id) {
 		// id: 0='year_selector',1='month_selector', 
@@ -235,7 +260,7 @@ function stats() {
 
 	function getJsonData() {
 		var jsonData = $.ajax({
-			url: "php/getData2.php",
+			url: "php/loadData.php",
 			data: {mode:period,year:year,month:month,day:day},
 			dataType: "json",
 			async: false

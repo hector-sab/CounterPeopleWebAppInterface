@@ -5,6 +5,22 @@
 
 // mode: indicates if you want to retrieve information of
 //    a day, month, year, or the full registery
+
+/*JS Example
+function getJsonData() {
+	var jsonData = $.ajax({
+		url: "php/loadData.php",
+		data: {mode:period,year:year,month:month,day:day},
+		dataType: "json",
+		async: false
+	}).responseText;
+
+	var data = new google.visualization.DataTable(jsonData);
+	formatDate.format(data,0)
+	return data;
+};
+*/
+
 $files_path = "../data/";
 
 $mode = $_GET['mode'];

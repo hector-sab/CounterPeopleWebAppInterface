@@ -1,11 +1,62 @@
 <?php 
 
 // This is just an example of reading server side data and sending it to the client.
-// It reads a json formatted text file and outputs it.
+// It reads a folder and return its content
 
-// mode: indicates if you want to retrieve information of
-//    a day, month, year, or the full registery
-$files_path = "../data/";
+/*JS Example
+function existingFiles(args) {
+	// Returns how many elements exist
+	// args should be an array -> new Array(...)
+	//
+	// args: indicates what folder to retrive
+	// args[0] -> 'years','months', or 'days'
+	//
+	// for 'years' there's other arg expected 
+	// for 'months', which year is espected. ie ['months','2018']
+	// for 'days', which year and month is espected. ie ['months','2018','01']
+	//
+	// All parameters should be strings
+
+	var nargs = args.length;
+	var files = null;
+
+	switch(args[0]) {
+		case 'years':
+			// Request what years are available
+			files = $.ajax({
+				url: 'php/existingFiles.php',
+				dataType: 'json',
+				data: {mode:'which_years'},
+				async: false
+			}).responseText;
+			break;
+		case 'months':
+			// Request what months are available
+			files = $.ajax({
+				url: 'php/existingFiles.php',
+				dataType: 'json',
+				data: {mode:'which_months',year:args[1]},
+				async: false
+			}).responseText;
+			break;
+		case 'days':
+			// Request what days are available
+			files = $.ajax({
+				url: 'php/existingFiles.php',
+				dataType: 'json',
+				data: {mode:'which_days',year:args[1],month:args[2]},
+				async: false
+			}).responseText;
+			break;
+	};
+
+	files = JSON.parse(files)
+	files.sort();
+	return(files);
+};
+
+*/
+
 
 $mode = $_GET['mode'];
 
