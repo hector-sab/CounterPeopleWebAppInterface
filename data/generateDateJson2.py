@@ -3,6 +3,7 @@
 from calendar import monthrange
 import random
 import json
+import os
 
 def date2string(HH,MM):
 	h = str(HH)
@@ -34,6 +35,9 @@ def generateData(years,months,rootD):
 
 		for MM in range(1,months[i]+1):
 			print('\tmonth: {}'.format(MM))
+			MM_dir = rootD+"monthly/{0}/".format(YY)
+			if not os.path.exists(MM_dir):
+				os.makedirs(MM_dir)
 			ind_MM = 0
 			ppl_MM_in = 0
 			ppl_MM_out = 0
@@ -42,6 +46,9 @@ def generateData(years,months,rootD):
 			ndays = monthrange(YY,MM)[1]
 
 			for DD in range(1,ndays+1):
+				DD_dir = rootD+"daily/{0}/{1}/".format(YY,MM)
+				if not os.path.exists(DD_dir):
+					os.makedirs(DD_dir)
 				ind_DD = 0
 				ppl_DD_in = 0
 				ppl_DD_out = 0
@@ -76,14 +83,14 @@ def generateData(years,months,rootD):
 				ppl_MM_in += ppl_DD_in
 				ppl_MM_out += ppl_DD_out
 
-				updateDict(monthly,ind_MM,YY,MM,DD,0,0,ppl_DD_in,ppl_DD_out)
+				ind_MM = updateDict(monthly,ind_MM,YY,MM,DD,0,0,ppl_DD_in,ppl_DD_out)
 
 			# TODO: Save monthly
 			json_data = json.dumps(monthly, indent=4, sort_keys=True)
 			with open(rootD+"monthly/{0}/{1:02d}.json".format(YY,MM),"w") as f:
 				f.write(json_data)
 
-			updateDict(yearly,ind_MM,YY,MM,DD,0,0,ppl_MM_in,ppl_MM_out)
+			ind_YY = updateDict(yearly,ind_YY,YY,MM,DD,0,0,ppl_MM_in,ppl_MM_out)
 
 		json_data = json.dumps(yearly, indent=4, sort_keys=True)
 		with open(rootD+"yearly/{0}.json".format(YY),"w") as f:
@@ -95,7 +102,7 @@ def generateData(years,months,rootD):
 
 
 
-def initDict(dct,lbl=None):
+def initDict(lbl=None):
 	if lbl is None:
 		lbl = "Fecha"
 
@@ -128,79 +135,9 @@ def updateDict(dct,ind,YY,MM,DD,hh,mm,ppl_in,ppl_out):
 	return(ind+1)
 
 
+if __name__=='__main__':
+	years =[2018,2019,2020]
+	months = [12,12,12]
+	rootD = './'
 
-
-years = [2018,2019,2020]
-for YY in years:
-	for m in range(12):
-		MM = m+1
-		ndays = monthrange(YY,MM)[1]
-		for d in range(ndays):
-			data = {}
-			data["cols"] = []
-			data["cols"].append({})
-			data["cols"][0]["label"] = "Fecha"
-			data["cols"][0]["type"] = "date"
-			data["cols"].append({})
-			data["cols"][1]["label"] = "Entrantes"
-			data["cols"][1]["type"] = "number"
-			data["cols"].append({})
-			data["cols"][2]["label"] = "Salientes"
-			data["cols"][2]["type"] = "number"
-			data["rows"] = []
-
-			k = 0
-			DD = d+1
-			random.seed(YY*MM*DD)
-			for hh in range(24):
-				for mm in [0,30]:
-					data["rows"].append({})
-					data["rows"][k]["c"] = []
-					data["rows"][k]["c"].append({})
-					data["rows"][k]["c"][0]["v"] = 'Date({0},{1},{2},{3},{4})'.format(YY,MM,DD,hh,mm)
-					#data["rows"][k]["c"][0]["f"] =  date2string(hh,mm)
-					data["rows"][k]["c"].append({})
-					data["rows"][k]["c"][1]["v"] = random.randint(0,100)
-					data["rows"][k]["c"].append({})
-					data["rows"][k]["c"][2]["v"] = random.randint(0,100)
-					#print('Date({0},{1},{2},{3},{4})'.format(2018,6,dd,i,j))
-					k+= 1
-
-			json_data = json.dumps(data, indent=4, sort_keys=True)
-#with open("records.json","w") as f:
-	#with open("yearly/{0}.json".format(YY),"w") as f:
-		#with open("monthly/{0}/{1:02d}.json".format(YY,MM),"w") as f:
-			with open("daily/{0}/{1:02d}/{2:02d}.json".format(YY,MM,DD),"w") as f:
-				f.write(json_data)
-
-
-
-
-
-
-"""
-for dd in range(1,):
-	for i in range(24):
-		for j in [0,30]:
-			data["rows"].append({})
-			data["rows"][k]["c"] = []
-			data["rows"][k]["c"].append({})
-			data["rows"][k]["c"][0]["v"] = 'Date({0},{1},{2},{3},{4})'.format(2018,6,dd,i,j)
-			data["rows"][k]["c"][0]["f"] =  date2string(i,j)
-			data["rows"][k]["c"].append({})
-			data["rows"][k]["c"][1]["v"] = random.randint(0,100)
-			data["rows"][k]["c"].append({})
-			data["rows"][k]["c"][2]["v"] = random.randint(0,100)
-			print('Date({0},{1},{2},{3},{4})'.format(2018,6,dd,i,j))
-			k+= 1
-
-
-
-
-json_data = json.dumps(data, indent=4, sort_keys=True)
-
-#print(json_data)
-
-with open("records.json","w") as f:
-	f.write(json_data)
-"""
+	generateData(years,months,rootD)
