@@ -1,130 +1,229 @@
 google.charts.load('current', {packages:['corechart','controls']}).then(stats);
 
-// TODO: Fix the appeareance of the dropdown menues and their flags
-
 function stats() {
-	/*
-	stats function is available to execute once the google 
-	charts API is loaded.
-	*/
-
 	// Which chart to be displayed
 	var drawChart = null;
 	// Indicates if it's visible or not
 	var visibilityChart = false;
+	// Indicates which period to display
+	var period = null;
 	// Indicates which year to load
 	var year = null;
-	var yearSelected = false;
 	// Indicates which month to load
 	var month = null;
-	var monthSelected = false;
 	// indicates which day to load
 	var day = null;
-	var daySelected = false;
-
-	if($('.container').hasClass('stats')) {
-		// If the type of chart is selected
-		$('a[id^=chart_selector]').on('click',function(e) {
-			e.preventDefault();
-			var pageRef = $(this).attr('href');
-			var this_chart = pageRef.slice(13,-5);
-
-			drawChart = selectChart(this_chart);
-
-			// Load available years
-			var years = existingFiles(new Array('years'));
-			if(yearSelected) {
-				$(document).parents('div').hasClass('year_selector').remove();
-			};
-
-			createDropdown(years,0);
-			// Show year selector
-			$('#btn-group-year').show()
-			//yearSelected = true;
-		});
 
 
-		$(document).on('click','a[id^=year_selector]',function(e) {
-			e.preventDefault();
-			year = $(this).attr('href');
+	if($('.container-fluid').is('#stats')) {
+		period = 'day';
+		selectChart('area');
 
-			// Load available years
-			var months = existingFiles(new Array('months',year));
-			if(monthSelected) {
-				$(document).parents('div').hasClass('month_selector').remove();
-			};
+		// Loads the available years
+		var years = existingFiles(new Array('years'));
+		populateForm(years,0);
 
-			createDropdown(months,1);
-			// Show year selector
-			$('#btn-group-month').show()
-			yearSelected = true;
-		});
+		var periodSelect = document.getElementById('period_select');
+		periodSelect.addEventListener('change',periodSelectedResp,false);
 
+		var chartSelect = document.getElementById('chart_select');
+		chartSelect.addEventListener('change',chartSelectedResp,false);
 
-		$(document).on('click','a[id^=month_selector]',function(e) {
-			e.preventDefault();
-			month = $(this).attr('href');
+		var yearSelect = document.getElementById('year_select');
+		yearSelect.addEventListener('change',yearSelectedResp,false);
 
-			// Load available years
-			var days = existingFiles(new Array('days',year,month));
-			if(daySelected) {
-				$(document).parents('div').hasClass('day_selector').remove();
-			};
+		var monthSelect = document.getElementById('month_select');
+		monthSelect.addEventListener('change',monthSelectedResp,false);
 
-			createDropdown(days,2);
-			// Show year selector
-			$('#btn-group-day').show();
-			daySelected = true;
-		});
-
-		//// End of if container 
+		var daySelect = document.getElementById('day_select');
+		daySelect.addEventListener('change',daySelectedResp,false);
 	};
 
 
-	function createDropdown(ymd,id) {
-		// ymd: array containing the strings to be displayed
+
+
+
+
+
+
+
+
+
+
+
+	///////////////// Starts: Response Functions
+	function periodSelectedResp() {
+		if (this.value.length>0) {
+			// Save selected year
+			period = this.value;
+
+			switch(period) {
+				case 'year':
+					if (year!=null) {
+						drawChart();
+					}
+					break;
+				case 'month':
+					if (month!=null) {
+						drawChart();
+					}
+					break;
+				case 'day':
+					if (day!=null) {
+						drawChart();
+					}
+					break;
+			};
+		};
+	};
+
+	function chartSelectedResp() {
+		selectChart(this.value);
+		if (visibilityChart) {
+			drawChart();
+		};
+	};
+
+	function yearSelectedResp() {
+		if (this.value.length>0) {
+			// Save selected year
+			year = this.value;
+
+			// Errase all old content
+			cleanForm(1);
+			cleanForm(2);
+
+			// Populate form
+			var months = existingFiles(new Array('months',this.value));
+			populateForm(months,1);
+
+			if(period=='year') {
+				drawChart();
+			};
+		};
+	};
+
+	function monthSelectedResp() {
+		if (this.value.length>0) {
+			// Save selected month
+			month = this.value;
+
+			// Errase all old content
+			cleanForm(2);
+
+			// Populate form
+			var months = existingFiles(new Array('days',year,this.value));
+			populateForm(months,2);
+
+			if(period=='month') {
+				drawChart();
+			};
+		};
+	};
+
+	function daySelectedResp() {
+		if (this.value.length>0) {
+			day = this.value;
+
+			if(period=='day') {
+				drawChart();
+			};
+		};
+	};
+	///////////////// Ends: Response Functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function cleanForm(id) {
 		// id: 0='year_selector',1='month_selector', 
 		//     2='day_selector'
-		var id_str = null;
-		var dest_id = null;
+		var cls_str = null;
 		switch(id) {
 			case 0:
-				id_str = 'year_selector';
-				dest_id = 'btn-group-year'
+				cls_str = 'year_select_item';
 				break;
 			case 1:
-				id_str = 'month_selector';
-				dest_id = 'btn-group-month'
+				cls_str = 'month_select_item';
 				break;
 			case 2:
-				id_str = 'day_selector';
-				dest_id = 'btn-group-day'
+				cls_str = 'day_select_item';
 				break;
 		};
 
-		var ddm = document.createElement('div');
-		ddm.setAttribute('class','dropdown-menu '+id_str);
-		ddm.setAttribute('aria-labelledby','dropdownMenuButton');
+		$('.'+cls_str).remove();
+	};
 
+	function populateForm(ymd,id) {
+		// ymd: array containing the strings to be displayed
+		// id: 0='year_selector',1='month_selector', 
+		//     2='day_selector'
+
+		var months = ['Enero','Febrero','Marzo','Abril','Mayo',
+									'Junio','Julio','Agosto','Septiembre',
+									'Octubre','Noviembre','Diciembre'];
+
+		var cls_str = null;
+		var dest_id = null;
+
+		switch(id) {
+			case 0:
+				cls_str = 'year_select_item';
+				dest_id = 'year_select';
+				break;
+			case 1:
+				cls_str = 'month_select_item';
+				dest_id = 'month_select';
+				break;
+			case 2:
+				cls_str = 'day_select_item';
+				dest_id = 'day_select';
+				break;
+		};
+		
 		for (var i=0;i<ymd.length;i++) {
-			var ddi = document.createElement('a');
-			ddi.setAttribute('class','dropdown-item');
-			ddi.setAttribute('id',id_str);
-			ddi.setAttribute('href',ymd[i]);
-			var txt = document.createTextNode(ymd[i]);
-			ddi.appendChild(txt);
-			ddm.appendChild(ddi);
-		}
-
-		document.getElementById(dest_id).appendChild(ddm);
+			var oi = document.createElement('option');
+			oi.setAttribute('class',cls_str);
+			oi.setAttribute('value',ymd[i]);
+			//oi.setAttribute('id',id_str);
+			if(id!=1) {
+				var txt = document.createTextNode(ymd[i]);
+			} else {
+				var txt = document.createTextNode(months[parseInt(ymd[i])-1]);
+			}
+			oi.appendChild(txt);
+			document.getElementById(dest_id).appendChild(oi);
+		};
 	};
 
 	function existingFiles(args) {
-		// args: ['years'] for all years available... it's an array
+		// Returns how many elements exist
+		// args should be an array -> new Array(...)
+		//
+		// args: indicates what folder to retrive
+		// args[0] -> 'years','months', or 'days'
+		//
+		// for 'years' there's other arg expected 
+		// for 'months', which year is espected. ie ['months','2018']
+		// for 'days', which year and month is espected. ie ['months','2018','01']
+		//
+		// All parameters should be strings
 		var nargs = args.length;
 		var files = null;
-		switch(nargs) {
-			case 1:
+
+		switch(args[0]) {
+			case 'years':
 				// Request what years are available
 				files = $.ajax({
 					url: 'php/existingFiles.php',
@@ -133,7 +232,7 @@ function stats() {
 					async: false
 				}).responseText;
 				break;
-			case 2:
+			case 'months':
 				// Request what months are available
 				files = $.ajax({
 					url: 'php/existingFiles.php',
@@ -142,7 +241,7 @@ function stats() {
 					async: false
 				}).responseText;
 				break;
-			case 3:
+			case 'days':
 				// Request what days are available
 				files = $.ajax({
 					url: 'php/existingFiles.php',
@@ -152,10 +251,22 @@ function stats() {
 				}).responseText;
 				break;
 		};
-
-		files = JSON.parse(files)
+		files = JSON.parse(files);
 		files.sort();
 		return(files);
+	};
+
+	function getJsonData() {
+		var jsonData = $.ajax({
+			url: "php/loadData.php",
+			data: {mode:period,year:year,month:month,day:day},
+			dataType: "json",
+			async: false
+		}).responseText;
+
+		var data = new google.visualization.DataTable(jsonData);
+		//formatDate.format(data,0)
+		return data;
 	};
 
 	function selectChart(text) {
@@ -164,22 +275,55 @@ function stats() {
 		var chart = null;
 		switch(text) {
 			case 'area':
-				chart = drawArea;
+				drawChart = drawArea;
 				break;
 			case 'bars':
-				chart = drawBars;
+				drawChart = drawBars;
 				break;
 		};
+	};
 
-		return(chart);
+	var chart = new google.visualization.ChartWrapper({
+		'containerId': 'chart_div'
+	});
+
+	var options = {
+		'chartArea': {'height':'80%','width':'90%'},
+		'animation':{
+        'duration': 1000,
+        'easing': 'in',
+      },
+		'hAxis': {
+			'slantedText': false
+		},
+		'vAxis': {
+			'title': 'Número de Ususarios',
+			'viewWindow': {
+				'min': 0 //,'max': 150
+			}
+		},
+		'legend': {
+			'position': 'none'
+		}
 	};
 
 	function drawArea() {
-		console.log('Area')
+		chart.setChartType("AreaChart");
+		chart.setDataTable(getJsonData());
+		chart.setOptions(options);
+		chart.draw();
+
+		console.log('Area');
+		visibilityChart = true;
 	};
 
 	function drawBars() {
+		chart.setChartType("ColumnChart");
+		chart.setDataTable(getJsonData());
+		chart.draw();
+
 		console.log('Bars')
-	}
-	////////////
+		visibilityChart = true;
+	};
+	///////
 };

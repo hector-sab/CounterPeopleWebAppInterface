@@ -1,84 +1,70 @@
 <script src="js/stats.js"></script>
 
-<div class="stats container">
-	<div class="btn-group btn-group-toggle" id="btn-group-charts" data-toggle="buttons">
-		<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Gráfica
-			</button>
-
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" id="chart_selector" href="views/charts/area.html">Área</a>
-				<a class="dropdown-item" id="chart_selector" href="views/charts/bars.html">Barras</a>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="btn-group btn-group-toggle" id="btn-group-year" data-toggle="buttons" style="display: none;">
-		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Año
-		</button>
-		<!-- HERE are inserted the years dinamically by JS -->
-	</div>
-
-		
-		
-	<div class="btn-group btn-group-toggle" id="btn-group-month" data-toggle="buttons" style="display: none;">
-		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Mes
-		</button>
-
-		<!-- HERE are inserted the months dinamically by JS -->
-	</div>
-
-
-	<div class="btn-group btn-group-toggle" id="btn-group-day" data-toggle="buttons" style="display: none;">
-		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Día
-		</button>
-
-		<!-- HERE are inserted the months dinamically by JS -->
-		
-	</div>
-		
-
-			
-
-	<div id="chart_div"></div>
-	<div id="chart_description"></div>
-
-
-	<!--
-	<div class="row" style="margin:0 !important">
-		
-		<div class="col-md-3">
-			<div class="card">
-				<div class="card-header text-center">Gráficas</div>
-				<div>
-					<ul class="list-group list-group-flush">
-						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/area.html">Área</a>
-						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/bars.html">Barras</a>
-						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/heatMap.html">Mapa de Calor</a>
-					</ul>
+<div class="container-fluid" id="stats">
+	<div class="row">
+		<div class="col-sm-2" id="side-panel" align="center">
+			<form>
+				<div class="form-group stats">
+					<label for="period_select">Periodo</label>
+					<select class="form-control" id="period_select">
+						<option value="day" selected>Día</option>
+						<option value="month">Mes</option>
+						<option value="year">Año</option>
+					</select>
 				</div>
-			</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="chart_select">Gráfica</label>
+					<select class="form-control" id="chart_select">
+						<option value="area" selected>Área</option>
+						<option value="bars">Barras</option>
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="year_select">Año</label>
+					<select class="form-control" id="year_select">
+						<option selected></option>
+						<!-- Years dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="month_select">Mes</label>
+					<select class="form-control" id="month_select">
+						<option selected></option>
+						<!-- Months dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+
+			<form>
+				<div class="form-group stats">
+					<label for="day_select">Día</label>
+					<select class="form-control" id="day_select">
+						<option selected></option>
+						<!-- Days dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+						
 		</div>
-
-		<div class="col-md-9">
-			<div id="chart" class="chart">
-				<h1>Gráficas</h1>
-				<p>Usando el panel lateral izquierdo, seleccione que información desea visualizar.</p>
+		<div class="col-sm-10">
+			<div id="chart_div"></div>
+			<div class="container" id="chart_description">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 			</div>
-
-			<div id="dashboard_div">
-				<div id="chart_div"></div>
-				<div id="slider_div"></div>
-				<div id='slide_div_state'></div>
-			</div>
-
-			<div id="description" class="chart"></div>
 		</div>
 	</div>
-	-->
 </div>
