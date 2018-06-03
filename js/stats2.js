@@ -219,7 +219,6 @@ function stats() {
 		// for 'days', which year and month is espected. ie ['months','2018','01']
 		//
 		// All parameters should be strings
-
 		var nargs = args.length;
 		var files = null;
 
@@ -252,8 +251,7 @@ function stats() {
 				}).responseText;
 				break;
 		};
-
-		files = JSON.parse(files)
+		files = JSON.parse(files);
 		files.sort();
 		return(files);
 	};

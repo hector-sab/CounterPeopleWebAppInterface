@@ -57,7 +57,7 @@ function existingFiles(args) {
 
 */
 
-
+$files_path = '../data/';
 $mode = $_GET['mode'];
 
 switch ($mode) {
