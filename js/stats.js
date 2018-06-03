@@ -313,16 +313,17 @@ function stats() {
 		chart.setOptions(options);
 		chart.draw();
 
-		console.log('Area');
+		//console.log('Area');
 		visibilityChart = true;
 	};
 
 	function drawBars() {
 		chart.setChartType("ColumnChart");
 		chart.setDataTable(getJsonData());
+		chart.setOptions(options);
 		chart.draw();
 
-		console.log('Bars')
+		//console.log('Bars')
 		visibilityChart = true;
 	};
 	///////
