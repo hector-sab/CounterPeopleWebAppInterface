@@ -1,6 +1,6 @@
 {
   "cols": [
-        {"label":"Hora del Día","type":"date"},
+        {"label":"Hora del Dia","type":"date"},
         {"label":"Personas Entrando","type":"number"},
         {"label":"Personas Saliendo","type":"number"}
       ],

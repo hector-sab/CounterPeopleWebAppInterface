@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Testing</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/loader.js"></script>
+	<script>
+		google.charts.load('current', {packages:['corechart','controls']}).then(start);
+
+		function start() {
+			// Adds leading zeros to an integer
+			Number.prototype.pad = function(size) {
+				var s = String(this);
+				while (s.length < (size || 2)) {s = "0" + s;}
+				return s;
+			}
+
+			function createDropMonths() {
+				var dd = document.createElement('div');
+
+				var ddb = document.createElement('button');
+				ddb.setAttribute('class','btn btn-secondary dropdown-toggle');
+				ddb.setAttribute('type','button');
+				ddb.setAttribute('id','dropdownMenuButton');
+				ddb.setAttribute('data-toggle','dropdown');
+				ddb.setAttribute('aria-haspopup','true');
+				ddb.setAttribute('aria-expanded','false');
+				var txt = document.createTextNode('Month');
+				ddb.appendChild(txt);
+
+				var ddm = document.createElement('div');
+				ddm.setAttribute('class','dropdown-menu');
+				ddm.setAttribute('aria-labelledby','dropdownMenuButton');
+
+				for (var i=1; i<13; i++) {
+					var month_str = i.pad(2);
+
+					var ddi = document.createElement('a');
+					ddi.setAttribute('class','dropdown-item');
+					ddi.setAttribute('id','month_selector');
+					ddi.setAttribute('href',month_str);
+					var txt = document.createTextNode(month_str);
+					ddi.appendChild(txt);
+					ddm.appendChild(ddi);
+				}
+
+				dd.appendChild(ddb);
+				dd.appendChild(ddm);
+
+				document.getElementById('months_dropdown').appendChild(dd)
+			};
+			createDropMonths();
+
+
+			var mode = 'day'; // day,month,year
+			var year = '2018';
+			var month = '01';
+			var day = '01';
+
+			// change data depending on click selection
+			$(".dropdown-item[id^=year_selector]").on("click", function(e) {
+				e.preventDefault();
+				year = $(this).attr('href');
+			});
+
+			// month
+			$(".dropdown-item[id^=month_selector]").on("click", function(e) {
+				e.preventDefault();
+				month = $(this).attr('href');
+			});
+
+			// Updates chart
+			$('button[id^=chart_update]').on('click',function(e) {
+				e.preventDefault();
+				chart.draw(getJsonData(),options);
+			});
+
+
+			var chart = new google.visualization.ColumnChart(
+				document.getElementById('chart_div'));
+
+			// Gets Data to be displayed on the charts
+			function getJsonData() {
+				var jsonData = $.ajax({
+					url: "php/getData2.php",
+					data: {mode:mode,year:year,month:month,day:day},
+					dataType: "json",
+					async: false
+				}).responseText;
+
+				var data = new google.visualization.DataTable(jsonData);
+				formatDate.format(data,0)
+				return data;
+			};
+
+			var options = {
+				'title': 'Test',
+				'chartArea': {'height':'80%','width':'90%'},
+				'hAxis': {
+					'format': 'HH:mm'
+				}
+			};
+
+			var formatDate = new google.visualization.DateFormat(
+				{prefix: 'Time: ',pattern:'MMM dd HH:mm'})
+
+			chart.draw(getJsonData(),options);
+			/////
+		};
+	</script>
+</head>
+<body>
+		
+	</div>
+	<div id="chart_div"></div>
+
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Year
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" id="year_selector" href="2018">2018</a>
+				<a class="dropdown-item" id="year_selector" href="2019">2019</a>
+				<a class="dropdown-item" id="year_selector" href="2020">2020</a>
+			</div>
+		</div>
+
+		<div id="months_dropdown"></div>
+
+
+	<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<label class="btn btn-secondary active">
+			<input type="radio" name="options" id="option1" autocomplete="off" checked> Year
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option2" autocomplete="off"> Month
+		</label>
+		<label class="btn btn-secondary">
+			<input type="radio" name="options" id="option3" autocomplete="off"> Day
+		</label>
+	</div>
+
+	<button type="button" class="btn" id="chart_update">Actualizar</button>
+
+
+</body>
+</html>

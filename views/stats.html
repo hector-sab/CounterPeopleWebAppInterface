@@ -1,10 +1,55 @@
-<!--
-<script src="js/charts2.js"></script>
--->
-
-<script src="js/statsv2.js"></script>
+<script src="js/stats.js"></script>
 
 <div class="stats container">
+	<div class="btn-group btn-group-toggle" id="btn-group-charts" data-toggle="buttons">
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Gráfica
+			</button>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" id="chart_selector" href="views/charts/area.html">Área</a>
+				<a class="dropdown-item" id="chart_selector" href="views/charts/bars.html">Barras</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="btn-group btn-group-toggle" id="btn-group-year" data-toggle="buttons" style="display: none;">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Año
+		</button>
+		<!-- HERE are inserted the years dinamically by JS -->
+	</div>
+
+		
+		
+	<div class="btn-group btn-group-toggle" id="btn-group-month" data-toggle="buttons" style="display: none;">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Mes
+		</button>
+
+		<!-- HERE are inserted the months dinamically by JS -->
+	</div>
+
+
+	<div class="btn-group btn-group-toggle" id="btn-group-day" data-toggle="buttons" style="display: none;">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown_chart_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Día
+		</button>
+
+		<!-- HERE are inserted the months dinamically by JS -->
+		
+	</div>
+		
+
+			
+
+	<div id="chart_div"></div>
+	<div id="chart_description"></div>
+
+
+	<!--
 	<div class="row" style="margin:0 !important">
 		
 		<div class="col-md-3">
@@ -14,7 +59,7 @@
 					<ul class="list-group list-group-flush">
 						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/area.html">Área</a>
 						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/bars.html">Barras</a>
-						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/pieChart.html">Pastel</a>
+						<a class="list-group-item list-group-item-action text-center" id="side-panel" href="views/charts/heatMap.html">Mapa de Calor</a>
 					</ul>
 				</div>
 			</div>
@@ -25,8 +70,15 @@
 				<h1>Gráficas</h1>
 				<p>Usando el panel lateral izquierdo, seleccione que información desea visualizar.</p>
 			</div>
+
+			<div id="dashboard_div">
+				<div id="chart_div"></div>
+				<div id="slider_div"></div>
+				<div id='slide_div_state'></div>
+			</div>
+
 			<div id="description" class="chart"></div>
 		</div>
-
 	</div>
+	-->
 </div>
