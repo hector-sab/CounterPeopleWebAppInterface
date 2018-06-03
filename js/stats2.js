@@ -265,7 +265,7 @@ function stats() {
 		}).responseText;
 
 		var data = new google.visualization.DataTable(jsonData);
-		formatDate.format(data,0)
+		//formatDate.format(data,0)
 		return data;
 	};
 
@@ -283,12 +283,45 @@ function stats() {
 		};
 	};
 
+	var chart = new google.visualization.ChartWrapper({
+		'containerId': 'chart_div'
+	});
+
+	var options = {
+		'chartArea': {'height':'80%','width':'90%'},
+		'animation':{
+        'duration': 1000,
+        'easing': 'in',
+      },
+		'hAxis': {
+			'slantedText': false
+		},
+		'vAxis': {
+			'title': 'Número de Ususarios',
+			'viewWindow': {
+				'min': 0 //,'max': 150
+			}
+		},
+		'legend': {
+			'position': 'none'
+		}
+	};
+
 	function drawArea() {
+		chart.setChartType("AreaChart");
+		chart.setDataTable(getJsonData());
+		chart.setOptions(options);
+		chart.draw();
+
 		console.log('Area');
 		visibilityChart = true;
 	};
 
 	function drawBars() {
+		chart.setChartType("ColumnChart");
+		chart.setDataTable(getJsonData());
+		chart.draw();
+
 		console.log('Bars')
 		visibilityChart = true;
 	};

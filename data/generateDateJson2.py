@@ -33,7 +33,7 @@ def generateData(years,months,rootD):
 		general = initDict()
 		yearly = initDict()
 
-		for MM in range(1,months[i]+1):
+		for MM in range(months[i]):
 			print('\tmonth: {}'.format(MM))
 			MM_dir = rootD+"monthly/{0}/".format(YY)
 			if not os.path.exists(MM_dir):
@@ -43,7 +43,7 @@ def generateData(years,months,rootD):
 			ppl_MM_out = 0
 			
 			monthly = initDict()
-			ndays = monthrange(YY,MM)[1]
+			ndays = monthrange(YY,MM+1)[1]
 
 			for DD in range(1,ndays+1):
 				DD_dir = rootD+"daily/{0}/{1}/".format(YY,MM)
@@ -77,7 +77,7 @@ def generateData(years,months,rootD):
 							ind_DD = updateDict(daily,ind_DD,YY,MM,DD,hh+1,0,ppl_mm_in,ppl_mm_out)
 
 				json_data = json.dumps(daily, indent=4, sort_keys=True)
-				with open(rootD+"daily/{0}/{1:02d}/{2:02d}.json".format(YY,MM,DD),"w") as f:
+				with open(rootD+"daily/{0}/{1:02d}/{2:02d}.json".format(YY,MM+1,DD),"w") as f:
 					f.write(json_data)
 
 				ppl_MM_in += ppl_DD_in
@@ -87,10 +87,10 @@ def generateData(years,months,rootD):
 
 			# TODO: Save monthly
 			json_data = json.dumps(monthly, indent=4, sort_keys=True)
-			with open(rootD+"monthly/{0}/{1:02d}.json".format(YY,MM),"w") as f:
+			with open(rootD+"monthly/{0}/{1:02d}.json".format(YY,MM+1),"w") as f:
 				f.write(json_data)
 
-			ind_YY = updateDict(yearly,ind_YY,YY,MM,DD,0,0,ppl_MM_in,ppl_MM_out)
+			ind_YY = updateDict(yearly,ind_YY,YY,MM,1,0,0,ppl_MM_in,ppl_MM_out)
 
 		json_data = json.dumps(yearly, indent=4, sort_keys=True)
 		with open(rootD+"yearly/{0}.json".format(YY),"w") as f:

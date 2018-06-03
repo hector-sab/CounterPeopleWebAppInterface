@@ -28,18 +28,18 @@ $mode = $_GET['mode'];
 switch ($mode) {
 	case 'year':
 		$year = $_GET['year'];
-		$file = $file."yearly/".$year.".json";
+		$file = $files_path."yearly/".$year.".json";
 		break;
 	case 'month':
 		$year = $_GET['year'];
 		$month = $_GET['month'];
-		$file = $file."monthly/".$year."/".$month.".json";
+		$file = $files_path."monthly/".$year."/".$month.".json";
 		break;
 	case 'day':
 		$year = $_GET['year'];
 		$month = $_GET['month'];
 		$day = $_GET['day'];
-		$file = $file."daily/".$year."/".$month."/".$day.".json";
+		$file = $files_path."daily/".$year."/".$month."/".$day.".json";
 		break;
 };
 
