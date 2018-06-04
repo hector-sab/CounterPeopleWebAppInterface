@@ -3,14 +3,59 @@
 <head>
 	<title>Testing</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script src="js/jquery.min.js"></script>
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/loader.js"></script>
+	<script src="js/libs/jquery.min.js"></script>
+	<script src="js/libs/popper.min.js"></script>
+	<script src="js/libs/bootstrap.min.js"></script>
+	<script src="js/libs/loader.js"></script>
+
 	<script>
 		google.charts.load('current', {packages:['corechart','controls']}).then(start);
 
+
+
+		var data = [
+			['Foo','programmer'],
+			['Bar','bus driver'],
+			['Moo','Reindeer Hunter']
+		];
+
+		function download_csv() {
+			var csv = 'Name,Title\n';
+			data.forEach(function(row) {
+				csv += row.join(',');
+				csv += '\n';
+			});
+			
+			console.log(csv);
+
+			var hiddenElement = document.createElement('a');
+			hiddenElement.href = 'data:text/csv;charset=utf-8,'+encodeURI(csv);
+			hiddenElement.target = '_blank';
+			hiddenElement.download = 'people.csv';
+			hiddenElement.click();
+		};
+
+
+
+
+		var tmp = null;
 		function start() {
+
+			function getExcel() {
+				var excel = $.ajax({
+					url: "php/createExcel.php",
+					data: {mode:mode,year:year,month:month,day:day},
+					dataType: "json",
+					async: false
+				});
+				tmp = excel;
+
+				return excel;
+			};
+
+			//console.log(getExcel());
+
+
 			// Adds leading zeros to an integer
 			Number.prototype.pad = function(size) {
 				var s = String(this);
@@ -85,12 +130,11 @@
 			// Gets Data to be displayed on the charts
 			function getJsonData() {
 				var jsonData = $.ajax({
-					url: "php/getData2.php",
+					url: "php/loadData.php",
 					data: {mode:mode,year:year,month:month,day:day},
 					dataType: "json",
 					async: false
 				}).responseText;
-
 				var data = new google.visualization.DataTable(jsonData);
 				formatDate.format(data,0)
 				return data;
@@ -144,6 +188,8 @@
 	</div>
 
 	<button type="button" class="btn" id="chart_update">Actualizar</button>
+
+	<button onclick="download_csv()">Download CSV</button> 
 
 
 </body>
