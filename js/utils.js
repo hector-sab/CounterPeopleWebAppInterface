@@ -43,6 +43,27 @@ ut.populateForm = function(ymd,id)
 	};
 };
 
+
+ut.cleanForm = function(id) 
+{
+	// id: 0='year_selector',1='month_selector', 
+	//     2='day_selector'
+	var cls_str = null;
+	switch(id) {
+		case 0:
+			cls_str = 'year_select_item';
+			break;
+		case 1:
+			cls_str = 'month_select_item';
+			break;
+		case 2:
+			cls_str = 'day_select_item';
+			break;
+	};
+
+	$('.'+cls_str).remove();
+};
+
 ut.existingFiles = function(args) 
 {
 	// Returns how many elements exist
@@ -116,4 +137,28 @@ ut.getJsonData = function(args)
 	var data = new google.visualization.DataTable(jsonData);
 	//formatDate.format(data,0)
 	return data;
+};
+
+ut.getJson = function(args) 
+{
+	// args is an array of strings 
+	// new Array(period,year,month,day)
+  //
+	// period: 'year', 'month', or 'day'
+	// year: 2018 | month: 01 | day: 01
+
+	var period = args[0];
+	var year = args[1];
+	var month = args[2];
+	var day = args[3];
+
+	var jsonData = $.ajax({
+		url: "php/loadData.php",
+		data: {mode:period,year:year,month:month,day:day},
+		dataType: "json",
+		async: false
+	}).responseText;
+
+	var data = JSON.parse(jsonData);
+	return data;//jsonData;
 };
