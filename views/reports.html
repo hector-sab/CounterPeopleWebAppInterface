@@ -1,0 +1,74 @@
+<script src="js/reports.js"></script>
+
+<div class="container" id="reports">
+	<div align="center">
+		<h1>Reportes</h1>
+	</div>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+	<div class="row" align="center">
+		<div class="col-sm-3">
+			<form>
+				<div class="form-group reports">
+					<label for="period_select"><h3>Periodo</h3></label>
+					<select class="form-control" id="period_select">
+						<option value="day">Día</option>
+						<option value="month">Mes</option>
+						<option value="year" selected>Año</option>
+					</select>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-sm-3">
+			<form>
+				<div class="form-group reports">
+					<label for="year_select"><h3>Año</h3></label>
+					<select class="form-control" id="year_select">
+						<option selected></option>
+						<!-- Years dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-sm-3">
+			<form>
+				<div class="form-group reports">
+					<label for="month_select"><h3>Mes</h3></label>
+					<select class="form-control" id="month_select">
+						<option selected></option>
+						<!-- Months dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-sm-3">
+			<form>
+				<div class="form-group reports">
+					<label for="day_select"><h3>Día</h3></label>
+					<select class="form-control" id="day_select">
+						<option selected></option>
+						<!-- Days dynamically inserted here -->
+					</select>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	<div align="center">
+		<button type="button" class="btn btn-info" id="download">Descargar</button>
+	</div>
+
+
+	<div class="empty"></div>
+	<div class="empty"></div>
+	<div class="empty"></div>
+	<div class="empty"></div>
+</div>

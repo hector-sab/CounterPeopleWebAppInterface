@@ -16,7 +16,7 @@ function stats() {
 
 
 	if($('.container-fluid').is('#stats')) {
-		period = 'day';
+		period = 'year';
 		selectChart('area');
 
 		// Loads the available years
