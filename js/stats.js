@@ -277,6 +277,9 @@ function stats() {
 			case 'area':
 				drawChart = drawArea;
 				break;
+			case 'lines':
+				drawChart = drawLines;
+				break;
 			case 'bars':
 				drawChart = drawBars;
 				break;
@@ -309,6 +312,16 @@ function stats() {
 
 	function drawArea() {
 		chart.setChartType("AreaChart");
+		chart.setDataTable(getJsonData());
+		chart.setOptions(options);
+		chart.draw();
+
+		//console.log('Area');
+		visibilityChart = true;
+	};
+
+	function drawLines() {
+		chart.setChartType("LineChart");
 		chart.setDataTable(getJsonData());
 		chart.setOptions(options);
 		chart.draw();
