@@ -115,6 +115,7 @@ function start() {
 		};
 
 	function downloadJSON(data) {
+		// https://code-maven.com/create-and-download-csv-with-javascript
 		// data should be a JSON object with two objects inside; 
 		//  'cols' and 'rows'
 		var csv = 'Fecha,Hora,Entradas,Salidas\n';

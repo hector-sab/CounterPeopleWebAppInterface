@@ -10,14 +10,17 @@
 }
 
 
-
-.chart {
-	width: 95%;
-	min-height: 0px;
+#chart_div {
+	min-height: 400px;
 }
 
-#chart_div {
-	min-height: 350px;
+/* Status */
+
+.cam-indicator {
+	background-color: red;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
 }
 
 
