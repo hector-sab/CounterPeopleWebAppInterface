@@ -17,7 +17,7 @@
 /* Status */
 
 .cam-indicator {
-	background-color: red;
+	background-color: grey;
 	height: 40px;
 	width: 40px;
 	border-radius: 50%;
