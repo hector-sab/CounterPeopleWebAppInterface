@@ -153,7 +153,16 @@ function downloadJSON(data) {
 	hiddenElement.href = 'data:text/csv;charset=utf-8,'+encodeURI(csv);
 	hiddenElement.target = '_blank';
 	hiddenElement.download = 'people.csv';
+	// Required for Firefox to download file
 	document.getElementById('csv_download').appendChild(hiddenElement);
+
+	if (window.navigator.msSaveOrOpenBlob) {
+		var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
+			type: "text/csv;charset=utf-8;"
+		});
+	  navigator.msSaveBlob(blob, 'FileName.csv');
+	}
+
 	hiddenElement.click();
 };
 ////////
