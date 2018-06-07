@@ -17,6 +17,7 @@ function start() {
 
 		var yearSelect = document.getElementById('year_select');
 		yearSelect.addEventListener('change',yearSelectedResp,false);
+		//yearSelect.on("change",yearSelectedResp);
 
 		var monthSelect = document.getElementById('month_select');
 		monthSelect.addEventListener('change',monthSelectedResp,false);
@@ -98,62 +99,61 @@ function start() {
 		};
 		if(GET_DATA) {
 			var data = ut.getJson(new Array(period,year,month,day));
-			//console.log(data)
-
 			downloadJSON(data);
 		}
 	};
 	////////////// Ends: Response Functions
-
-
-
-	function leadZeros(str) {
-			if (str.length<2) {
-				str = '0'+str;
-			}
-			return str;
-		};
-
-	function downloadJSON(data) {
-		// https://code-maven.com/create-and-download-csv-with-javascript
-		// data should be a JSON object with two objects inside; 
-		//  'cols' and 'rows'
-		var csv = 'Fecha,Hora,Entradas,Salidas\n';
-		
-		for (var i = 0; i<data['rows'].length; i++) {
-			var row = data['rows'][i]['c'];
-			
-			var dateTime = row[0]['v'];
-			var ins = row[1]['v'];
-			var outs = row[2]['v'];
-
-			dateTime = dateTime.replace('Date(','');
-			dateTime = dateTime.replace(')','');
-			
-			dateTime = dateTime.split(',');
-			
-			var MM = leadZeros((parseInt(dateTime[1])+1).toString());
-			var DD = leadZeros(dateTime[2]);
-
-			var date = dateTime[0]+'-'+MM+'-'+DD+',';
-			
-
-
-
-			var hh = leadZeros(dateTime[3]);
-			var mm = leadZeros(dateTime[4]);
-			var ss = leadZeros(dateTime[5]);
-
-			var time = hh+':'+mm+':'+ss+',';
-			
-			csv += date+time+ins+','+outs+'\n';
-		};
-
-		var hiddenElement = document.createElement('a');
-		hiddenElement.href = 'data:text/csv;charset=utf-8,'+encodeURI(csv);
-		hiddenElement.target = '_blank';
-		hiddenElement.download = 'people.csv';
-		hiddenElement.click();
-	};
-	////////
 }
+
+
+function leadZeros(str) {
+		if (str.length<2) {
+			str = '0'+str;
+		}
+		return str;
+	};
+
+function downloadJSON(data) {
+	// https://code-maven.com/create-and-download-csv-with-javascript
+	// data should be a JSON object with two objects inside; 
+	//  'cols' and 'rows'
+	var csv = 'Fecha,Hora,Entradas,Salidas\n';
+	
+	for (var i = 0; i<data['rows'].length; i++) {
+		var row = data['rows'][i]['c'];
+		
+		var dateTime = row[0]['v'];
+		var ins = row[1]['v'];
+		var outs = row[2]['v'];
+
+		dateTime = dateTime.replace('Date(','');
+		dateTime = dateTime.replace(')','');
+		
+		dateTime = dateTime.split(',');
+		
+		var MM = leadZeros((parseInt(dateTime[1])+1).toString());
+		var DD = leadZeros(dateTime[2]);
+
+		var date = dateTime[0]+'-'+MM+'-'+DD+',';
+		
+
+
+
+		var hh = leadZeros(dateTime[3]);
+		var mm = leadZeros(dateTime[4]);
+		var ss = leadZeros(dateTime[5]);
+
+		var time = hh+':'+mm+':'+ss+',';
+		
+		csv += date+time+ins+','+outs+'\n';
+	};
+
+
+	var hiddenElement = document.createElement('a');
+	hiddenElement.href = 'data:text/csv;charset=utf-8,'+encodeURI(csv);
+	hiddenElement.target = '_blank';
+	hiddenElement.download = 'people.csv';
+	document.getElementById('csv_download').appendChild(hiddenElement);
+	hiddenElement.click();
+};
+////////
