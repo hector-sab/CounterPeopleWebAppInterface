@@ -163,14 +163,3 @@ ut.getJson = function(args)
 	return data;//jsonData;
 };
 
-ut.getCamStatus = function()
-{
-	var jsonData = $.ajax({
-		url: "php/systemStatus.php",
-		dataType: "json",
-		async: false
-	}).responseText;
-
-	var data = JSON.parse(jsonData);
-	return data;//jsonData;
-};
