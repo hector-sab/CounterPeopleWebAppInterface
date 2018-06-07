@@ -1,0 +1,64 @@
+[class^="number"] {
+  padding: 10px;
+  background-color: #444;
+  height: 120px;
+  width: 80px;
+  border-radius: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+}
+
+.upper {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+.lower {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+.section {
+  background-color: #bada55;
+  height: 10px;
+  width: 10px;
+  border-radius: 10%;
+}
+
+.vertical {
+  height: 45px;
+}
+
+.horizontal {
+  width: 50px;
+}
+
+
+/* Items */
+#top {
+
+}
+
+#top-left {
+
+}
+
+#top-right {
+
+}
+
+
+#bottom {
+  align-self: flex-end;
+}
+
+#bottom-left {
+
+}
+
+#bottom-right {
+
+}
