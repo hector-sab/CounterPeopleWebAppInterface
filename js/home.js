@@ -1,6 +1,7 @@
 $(document).ready(start);
 
 function start() {
+	counterUpdateClickedResp();
 	var counterUpdate = document.getElementById('liveCountBtn');
 	counterUpdate.addEventListener('click',counterUpdateClickedResp,false);
 
