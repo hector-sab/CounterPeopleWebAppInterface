@@ -1,0 +1,6 @@
+{
+	"dataDir": "../data/",
+	"calibrationPath":"/home/orbbec/contador/calibration.sh",
+	"initializationPath":"/home/orbbec/contador/contador.sh",
+	"systemStatusPath":"../data/system_status/status.json"
+}
