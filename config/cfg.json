@@ -1,7 +1,11 @@
 {
 	"dataDir": "../data/",
-	"calibrationPath":"/home/orbbec/contador/calibration.sh",
-	"initializationPath":"/home/orbbec/contador/contador.sh",
+	"restartPath":"/home/orbbec/contador/reiniciar.sh",
+	"stopPath":"/home/orbbec/contador/terminar.sh",
 	"systemStatusPath":"../data/system_status/status.json",
-	"liveCounterDataPath":"../data/eventos.txt"
+	"calibrationStatusPath":"../data/system_status/calibration.json",
+	"liveCounterDataPath":"../data/eventos.txt",
+	"calibration12Path":"/home/orbbec/contador/calibration12.sh",
+	"calibration23Path":"/home/orbbec/contador/calibration23.sh",
+	"calibration34Path":"/home/orbbec/contador/calibration34.sh"
 }

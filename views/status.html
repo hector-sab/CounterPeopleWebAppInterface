@@ -6,7 +6,12 @@
 	  <h1>Estado del Sistema</h1>
 		<p align="justify">Se determina visualmente si los contadores están  operacionales. Un indicador verde significa que el contador está operando  normalmente y gris si no. Dar click en el botón &lt;Inicia&gt; ordena al  coordinador de los contadores iniciar las unidades de conteo. </p>
 		<p align="justify">&nbsp;</p>
-  </div>
+	</div>
+
+	<div align="center">
+		<h2>Estado de las Cámaras</h2>
+	</div>
+
 	<div class="row">
 		<!-- Check for gradient buttons with CSS https://stackoverflow.com/a/27776835-->
 		<div class="col-sm-3" align="center">
@@ -30,8 +35,38 @@
 	<div class="empty"></div>
 
 	<div align="center">
-		<button type="button" class="btn btn-info status" id="start">Iniciar</button>
-		<button type="button" class="btn btn-info status" id="calibrate">Calibrar</button>
+		<button type="button" class="btn btn-info status" id="restart">Terminar</button>
+		<button type="button" class="btn btn-info status" id="stop">Reiniciar</button>
+	</div>
+
+	<div class="empty"></div>
+
+	<div align="center">
+		<h2>Estado de la Calibración</h2>
+	</div>
+
+	<div class="row">
+		<!-- Check for gradient buttons with CSS https://stackoverflow.com/a/27776835-->
+		<div class="col-sm-4" align="center">
+			<h3>Cámaras 1-2</h3>
+			<div class="cam-indicator" id="cal-1"></div>
+		</div>
+		<div class="col-sm-4" align="center">
+			<h3>Cámaras 2-3</h3>
+			<div class="cam-indicator" id="cal-2"></div>
+		</div>
+		<div class="col-sm-4" align="center">
+			<h3>Cámaras 3-4</h3>
+			<div class="cam-indicator" id="cal-3"></div>
+		</div>
+	</div>
+
+	<div class="empty"></div>
+
+	<div align="center">
+		<button type="button" class="btn btn-info status" id="calibrate12">Calibrar Cam 1-2</button>
+		<button type="button" class="btn btn-info status" id="calibrate23">Calibrar Cam 2-3</button>
+		<button type="button" class="btn btn-info status" id="calibrate34">Calibrar Cam 3-4</button>
 	</div>
 
 	
