@@ -18,19 +18,10 @@ function start() {
 
 
 	/* Starts: Functions Response */
-	function initMainClickedResp() {
-		console.log('Initialization');
-		var init_main = $.ajax({
-			url: 'php/init_main.php',
-			async: false
-		}).responseText;
-		console.log(init_main);
-	}
-
 	function initRestartClickedResp() {
-		console.log('Initialization');
+		console.log('Restart');
 		var init_main = $.ajax({
-			url: 'php/init_main.php',
+			url: 'php/restart.php',
 			async: false
 		}).responseText;
 		console.log(init_main);
@@ -38,9 +29,9 @@ function start() {
 
 
 	function initStopClickedResp() {
-		console.log('Initialization');
+		console.log('Stop');
 		var init_main = $.ajax({
-			url: 'php/init_main.php',
+			url: 'php/stop.php',
 			async: false
 		}).responseText;
 		console.log(init_main);
@@ -48,7 +39,7 @@ function start() {
 
 
 	function initCalibration12ClickedResp() {
-		console.log('Calibration');
+		console.log('Calibration12');
 		var init_calibration = $.ajax({
 			url: 'php/init_calibration12.php',
 			async: false
@@ -57,7 +48,7 @@ function start() {
 	}
 
 	function initCalibration23ClickedResp() {
-		console.log('Calibration');
+		console.log('Calibration23');
 		var init_calibration = $.ajax({
 			url: 'php/init_calibration23.php',
 			async: false
@@ -66,7 +57,7 @@ function start() {
 	}
 
 	function initCalibration34ClickedResp() {
-		console.log('Calibration');
+		console.log('Calibration34');
 		var init_calibration = $.ajax({
 			url: 'php/init_calibration34.php',
 			async: false
